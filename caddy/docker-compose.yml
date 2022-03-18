@@ -5,14 +5,15 @@ services:
     container_name: caddy
     build:
       context: .
+    image: caddy:nettop
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
       NAMECHEAP_API_KEY: ${NAMECHEAP_API_KEY}
       NAMECHEAP_USERNAME: ${NAMECHEAP_USERNAME}
       NAMECHEAP_ENDPOINT: ${NAMECHEAP_ENDPOINT}
     ports:
-      - "80:80"
-      - "443:443"
+      - "8070:80"
+      - "8071:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./www:/srv

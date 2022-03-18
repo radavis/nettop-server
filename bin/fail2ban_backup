@@ -2,8 +2,8 @@
 
 destination=${BACKUP_PATH:-"$(pwd)/.backup"}
 
-container=caddy
-image=caddy:nettop
+container=fail2ban
+image=fail2ban:nettop
 timestamp=$(env TZ=UTC date "+%Y%m%d%H%M%S")
 
 docker run --rm \
@@ -12,10 +12,3 @@ docker run --rm \
   -v ${destination}:/backup \
   ${image} \
   "-cf" "/backup/${container}-data-${timestamp}.tar" "-C" "/" "data"
-
-docker run --rm \
-  --entrypoint "/bin/tar" \
-  --volumes-from ${container} \
-  -v ${destination}:/backup \
-  ${image} \
-  "-cf" "/backup/${container}-config-${timestamp}.tar" "-C" "/" "config"

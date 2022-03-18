@@ -2,7 +2,7 @@
 
 Requires: docker and docker-compose.
 
-Set a DNS `A Record` for your `DOMAIN_NAME`, then
+Set a DNS `A/AAAA Records` for your `DOMAIN_NAME`, then
 
 ```bash
 $ docker network create nettop
