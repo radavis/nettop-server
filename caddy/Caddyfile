@@ -4,15 +4,10 @@
 
 (headers) {
 	header {
-		# Enable HTTP Strict Transport Security (HSTS) to force clients to always connect via HTTPS
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-		# Enable cross-site filter (XSS) and tell browser to block detected attacks
 		X-XSS-Protection "1; mode=block"
-		# Prevent some browsers from MIME-sniffing a response away from the declared Content-Type
 		X-Content-Type-Options "nosniff"
-		# Disallow the site to be rendered within a frame (clickjacking protection)
-		X-Frame-Options "DENY"
-		# X-Robots-Tag
+		X-Frame-Options "sameorigin"
 		X-Robots-Tag "noindex, noarchive, nofollow"
 	}
 }
@@ -41,4 +36,8 @@ www.{$DOMAIN_NAME} {
 gitlab.{$DOMAIN_NAME} {
 	import headers
 	reverse_proxy gitlab:80
+}
+
+registry.{$DOMAIN_NAME} {
+	import headers
 }
