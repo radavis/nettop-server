@@ -18,7 +18,6 @@
 	header_up X-Forwarded-Host {host}
 	header_up X-Real-IP {remote_host}
 	header_up X-Forwarded-For {remote_host}
-	header_up X-Forwarded-Proto {scheme}
 }
 
 *.{$DOMAIN_NAME} {
@@ -58,7 +57,7 @@ registry.{$DOMAIN_NAME} {
 
 	header ?Docker-Distribution-Api-Version "registry/2.0"
 
-	reverse_proxy gitlab:80 {
+	reverse_proxy gitlab:5000 {
 		import forwarding_headers
 	}
 }
