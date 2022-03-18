@@ -3,7 +3,8 @@
 source=${BACKUP_PATH:-"$(pwd)/.backup"}
 
 container=caddy
-image=caddy:nettop
+image=nettop-server_caddy:latest
+
 archive=$(ls -1t ${source}/${container}-data-*.tar | head -1)
 filename=$(basename ${archive})
 

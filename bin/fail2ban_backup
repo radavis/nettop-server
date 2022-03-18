@@ -3,7 +3,8 @@
 destination=${BACKUP_PATH:-"$(pwd)/.backup"}
 
 container=fail2ban
-image=fail2ban:nettop
+image=nettop-server_fail2ban:latest
+
 timestamp=$(env TZ=UTC date "+%Y%m%d%H%M%S")
 
 docker run --rm \

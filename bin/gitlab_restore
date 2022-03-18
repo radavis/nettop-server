@@ -3,7 +3,8 @@
 source=${BACKUP_PATH:-"$(pwd)/.backup"}
 
 container=gitlab
-image=gitlab:nettop
+image=nettop-server_gitlab:latest
+
 archive=$(ls -1t ${source}/gitlab-config-*.tar | head -1)
 filename=$(basename ${archive})
 

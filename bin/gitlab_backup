@@ -3,7 +3,7 @@
 destination=${BACKUP_PATH:-"$(pwd)/.backup"}
 
 container=gitlab
-image=gitlab:nettop
+image=nettop-server_gitlab
 
 docker run --rm \
   --entrypoint "/bin/tar" \
