@@ -5,6 +5,7 @@ Requires: docker and docker-compose.
 Set a DNS `A/AAAA Records` for your `DOMAIN_NAME`, then
 
 ```bash
+$ export DOCKER_BUILDKIT=1
 $ docker network create nettop
 $ docker volume create --name=caddy-data
 $ alias dc=docker-compose
