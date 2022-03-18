@@ -3,7 +3,7 @@ version: "3.7"
 services:
   gitlab:
     container_name: gitlab
-    image:
+    image: gitlab:nettop
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url "https://gitlab.${DOMAIN_NAME}"
