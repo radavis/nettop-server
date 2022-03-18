@@ -8,7 +8,7 @@
 	}
 
 	header {
-		X-Robots-Tag noindex noarchive nosnippet nofollow;
+		X-Robots-Tag "noindex noarchive nosnippet nofollow"
 	}
 }
 
