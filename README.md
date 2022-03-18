@@ -18,11 +18,11 @@ $ open https://www.${DOMAIN_NAME}
 
 ```bash
 $ mkdir .backup
-$ bin/caddy_backup
+$ bin/*_backup
 ```
 
 ## restore
 
 ```bash
-$ bin/caddy_restore
+$ bin/*_restore
 ```
