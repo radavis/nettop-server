@@ -60,7 +60,7 @@ services:
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
         registry_external_url "https://registry.${DOMAIN_NAME}"
-        registry_nginx["listen_port"] = 5000
+        registry_nginx["listen_port"] = 80
         registry_nginx["listen_https"] = false
         grafana["disable_login_form"] = true
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"

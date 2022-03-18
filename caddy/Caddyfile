@@ -1,8 +1,9 @@
 {
+	debug
 	email {env.ACME_EMAIL}
 }
 
-(headers) {
+(security_headers) {
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 		X-XSS-Protection "1; mode=block"
@@ -10,6 +11,14 @@
 		X-Frame-Options "sameorigin"
 		X-Robots-Tag "noindex, noarchive, nofollow"
 	}
+}
+
+(forwarding_headers) {
+	header_up Host {upstream_hostport}
+	header_up X-Forwarded-Host {host}
+	header_up X-Real-IP {remote_host}
+	header_up X-Forwarded-For {remote_host}
+	header_up X-Forwarded-Proto {scheme}
 }
 
 *.{$DOMAIN_NAME} {
@@ -23,22 +32,33 @@
 }
 
 hello.{$DOMAIN_NAME} {
-	import headers
+	import security_headers
 	respond "Hello"
 }
 
 www.{$DOMAIN_NAME} {
-	import headers
+	import security_headers
 	root * /www/
 	file_server
 }
 
 gitlab.{$DOMAIN_NAME} {
-	import headers
-	reverse_proxy gitlab:80
+	import security_headers
+	reverse_proxy gitlab:80 {
+		import forwarding_headers
+	}
 }
 
 registry.{$DOMAIN_NAME} {
-	import headers
-	reverse_proxy gitlab:80
+	import security_headers
+
+	request_body {
+		max_size 0
+	}
+
+	header ?Docker-Distribution-Api-Version "registry/2.0"
+
+	reverse_proxy gitlab:80 {
+		import forwarding_headers
+	}
 }
