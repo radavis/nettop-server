@@ -18,11 +18,11 @@ $ open https://www.${DOMAIN_NAME}
 
 ```bash
 $ mkdir .backup
-$ bin/*_backup
+$ bin/{caddy,gitlab,fail2ban}_backup
 ```
 
 ## restore
 
 ```bash
-$ bin/*_restore
+$ bin/bin/{caddy,gitlab}_restore
 ```

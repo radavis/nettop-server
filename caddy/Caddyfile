@@ -1,5 +1,5 @@
 *.{$DOMAIN_NAME} {
-	tls {
+	tls {$ACME_EMAIL} {
 		dns namecheap {
 			api_key {env.NAMECHEAP_API_KEY}
 			user {env.NAMECHEAP_USERNAME}
