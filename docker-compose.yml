@@ -14,7 +14,6 @@ services:
       - "8070:80"
       - "8071:443"
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/www:/srv
       - caddy-data:/data
       - caddy-config:/config
