@@ -3,6 +3,8 @@ version: "3.7"
 services:
   gitlab:
     container_name: gitlab
+    build:
+      context: .
     image: gitlab:nettop
     environment:
       GITLAB_OMNIBUS_CONFIG: |
