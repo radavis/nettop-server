@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  gitlab:
+    container_name: gitlab
+    image: gitlab/gitlab-ce:14.8.2-ce.0
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "https://gitlab.${DOMAIN_NAME}"
+        nginx["listen_port"] = 80
+        nginx["listen_https"] = false
+        letsencrypt["enable"] = false
+        puma["worker_processes"] = 4
+        sidekiq["max_concurrency"] = 20
+        gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
+        registry_external_url "https://registry.${DOMAIN_NAME}"
+        registry_nginx["listen_port"] = 80
+        registry_nginx["listen_https"] = false
+        grafana["disable_login_form"] = true
+        grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
+    ports:
+      - "4242:22"
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    restart: unless-stopped
+    depends_on:
+      - caddy
+    healthcheck:
+      test: curl --fail https://gitlab.${DOMAIN_NAME}/-/readiness || exit 1
+      start_period: 5m
+    shm_size: "256m"
+    networks:
+      - nettop
+
+volumes:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:
+
+networks:
+  nettop:
+    external: true

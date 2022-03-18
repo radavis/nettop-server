@@ -1,0 +1,13 @@
+#!/bin/sh
+
+container=caddy
+image=caddy_caddy
+timestamp=$(env TZ=UTC date "+%Y%m%d%H%M%S")
+destination=${BACKUP_PATH:-"$(pwd)/.backup"}
+
+docker run --rm \
+  --entrypoint "/bin/tar" \
+  --volumes-from ${container} \
+  -v ${destination}:/backup \
+  ${image} \
+  "-cf" "/backup/${container}-data-${timestamp}.tar" "-C" "/" "data"

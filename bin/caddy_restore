@@ -1,0 +1,16 @@
+#!/bin/sh
+
+source=${BACKUP_PATH:-"$(pwd)/.backup"}
+
+container=caddy
+image=caddy_caddy
+archive=$(ls -1t ${source}/${container}-data-*.tar | head -1)
+filename=$(basename ${archive})
+
+echo "Restoring ${container} from ${archive}"
+docker run --rm \
+  --entrypoint "/bin/tar" \
+  --volumes-from ${container} \
+  -v ${source}:/backup \
+  ${image} \
+  "-xf" "/backup/${filename}" "-C" "/"

@@ -1,0 +1,22 @@
+*.{$DOMAIN_NAME} {
+	tls {
+		dns namecheap {
+			api_key {env.NAMECHEAP_API_KEY}
+			user {env.NAMECHEAP_USERNAME}
+			endpoint {env.NAMECHEAP_ENDPOINT}
+		}
+	}
+}
+
+hello.{$DOMAIN_NAME} {
+	respond "Hello"
+}
+
+www.{$DOMAIN_NAME} {
+	root * /www/
+	file_server
+}
+
+gitlab.{$DOMAIN_NAME} {
+	reverse_proxy gitlab:80
+}
