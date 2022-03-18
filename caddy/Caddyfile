@@ -40,4 +40,5 @@ gitlab.{$DOMAIN_NAME} {
 
 registry.{$DOMAIN_NAME} {
 	import headers
+	reverse_proxy gitlab:80
 }
