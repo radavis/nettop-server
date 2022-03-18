@@ -6,6 +6,10 @@
 			endpoint {env.NAMECHEAP_ENDPOINT}
 		}
 	}
+
+	header {
+		X-Robots-Tag noindex noarchive nosnippet nofollow;
+	}
 }
 
 hello.{$DOMAIN_NAME} {
