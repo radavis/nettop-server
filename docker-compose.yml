@@ -6,6 +6,7 @@ services:
     build:
       context: caddy/.
     environment:
+      ACME_EMAIL: ${ACME_EMAIL}
       DOMAIN_NAME: ${DOMAIN_NAME}
       NAMECHEAP_API_KEY: ${NAMECHEAP_API_KEY}
       NAMECHEAP_USERNAME: ${NAMECHEAP_USERNAME}
