@@ -55,8 +55,6 @@ registry.{$DOMAIN_NAME} {
 		max_size 0
 	}
 
-	header ?Docker-Distribution-Api-Version "registry/2.0"
-
 	reverse_proxy gitlab:5000 {
 		import forwarding_headers
 	}
