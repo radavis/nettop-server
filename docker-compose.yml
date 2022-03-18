@@ -14,8 +14,8 @@ services:
       - "8070:80"
       - "8071:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./www:/srv
+      - .caddy/Caddyfile:/etc/caddy/Caddyfile
+      - .caddy/www:/srv
       - caddy-data:/data
       - caddy-config:/config
     restart: unless-stopped
