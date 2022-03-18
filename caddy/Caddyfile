@@ -1,5 +1,8 @@
 {
 	email {env.ACME_EMAIL}
+}
+
+(headers) {
 	header {
 		# Enable HTTP Strict Transport Security (HSTS) to force clients to always connect via HTTPS
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
@@ -25,14 +28,17 @@
 }
 
 hello.{$DOMAIN_NAME} {
+	import headers
 	respond "Hello"
 }
 
 www.{$DOMAIN_NAME} {
+	import headers
 	root * /www/
 	file_server
 }
 
 gitlab.{$DOMAIN_NAME} {
+	import headers
 	reverse_proxy gitlab:80
 }
