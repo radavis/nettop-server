@@ -1,3 +1,4 @@
 FROM gitlab/gitlab-ce:14.9.1-ce.0
-RUN apt-get update -y && apt-get install -y \
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -qq && apt-get install -yqq \
   nano
