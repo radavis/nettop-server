@@ -31,11 +31,11 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         letsencrypt["enable"] = true
         letsencrypt["contact_emails"] = ["${ACME_EMAIL}"]
-        external_url "http://gitlab.${DOMAIN_NAME}"
+        external_url "https://gitlab.${DOMAIN_NAME}"
         puma["worker_processes"] = 4
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
-        registry_external_url "http://registry.${DOMAIN_NAME}"
+        registry_external_url "https://registry.${DOMAIN_NAME}"
         grafana["disable_login_form"] = true
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
     ports:
