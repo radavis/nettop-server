@@ -5,7 +5,6 @@ Requires: docker and docker-compose.
 Set a DNS `A/AAAA Records` for your `DOMAIN_NAME`, then
 
 ```bash
-$ docker network create nettop
 $ cp .env.example .env
 $ alias dc=docker-compose
 $ dc build
@@ -17,11 +16,11 @@ $ open https://www.${DOMAIN_NAME}
 
 ```bash
 $ mkdir .backup
-$ bin/{caddy,gitlab,fail2ban}_backup
+$ bin/{gitlab,fail2ban}_backup
 ```
 
 ## restore
 
 ```bash
-$ bin/{caddy,gitlab}_restore
+$ bin/{gitlab}_restore
 ```
