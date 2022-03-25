@@ -52,9 +52,6 @@ services:
       start_period: 5m
     shm_size: "256m"
 
-  loki:
-    image: grafana/loki:2.4.1
-
 volumes:
   fail2ban-data:
   gitlab-config:
