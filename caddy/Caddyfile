@@ -13,15 +13,8 @@
 	}
 }
 
-(forwarding_headers) {
-	header_up Host {upstream_hostport}
-	header_up X-Forwarded-Host {host}
-	header_up X-Real-IP {remote_host}
-	header_up X-Forwarded-For {remote_host}
-}
-
-*.{$DOMAIN_NAME} {
-	tls {$ACME_EMAIL} {
+(tls_config) {
+	tls {
 		dns namecheap {
 			api_key {env.NAMECHEAP_API_KEY}
 			user {env.NAMECHEAP_USERNAME}
@@ -30,27 +23,25 @@
 	}
 }
 
-hello.{$DOMAIN_NAME} {
-	import security_headers
-	respond "Hello"
-}
-
-www.{$DOMAIN_NAME} {
-	import security_headers
+https://www.{$DOMAIN_NAME}:443 {
+	import tls_config
 	root * /www/
 	file_server
 }
 
-gitlab.{$DOMAIN_NAME} {
-	import security_headers
-	reverse_proxy gitlab:80 {
-		import forwarding_headers
-	}
+https://hello.{$DOMAIN_NAME}:443 {
+	import tls_config
+	respond "Hello"
 }
 
-registry.{$DOMAIN_NAME} {
-	# import security_headers
-	reverse_proxy gitlab:5000 {
-		import forwarding_headers
+https://gitlab.{$DOMAIN_NAME}:443 {
+	import tls_config
+	reverse_proxy http://gitlab:80
+}
+
+https://registry.{$DOMAIN_NAME}:443 {
+	import tls_config
+	reverse_proxy http://gitlab:5000 {
+		header_up Host {http.reverse_proxy.upstream.hostport}
 	}
 }
