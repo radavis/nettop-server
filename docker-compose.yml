@@ -33,9 +33,9 @@ services:
       F2B_DB_PURGE_AGE: 1d
       SSMTP_HOST: mail.privateemail.com
       SSMTP_PORT: 465
-      SSMTP_USER: $F2B_SSMTP_USER
-      SSMTP_PASSWORD: $F2B_SSMTP_PASSWORD
-      SSMTP_TLS: YES
+      SSMTP_USER: ${F2B_SSMTP_USER}
+      SSMTP_PASSWORD: ${F2B_SSMTP_PASSWORD}
+      SSMTP_TLS: "true"
     network_mode: host
     cap_add:
       - NET_ADMIN
