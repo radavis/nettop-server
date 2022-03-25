@@ -31,12 +31,11 @@ services:
       F2B_LOG_TARGET: STDOUT
       F2B_LOG_LEVEL: INFO
       F2B_DB_PURGE_AGE: 1d
-      # SSMTP_HOST: smtp.example.com
-      # SSMTP_PORT: 587
-      # SSMTP_HOSTNAME: example.com
-      # SSMTP_USER: smtp@example.com
-      # SSMTP_PASSWORD:
-      # SSMTP_TLS: YES
+      SSMTP_HOST: mail.privateemail.com
+      SSMTP_PORT: 465
+      SSMTP_USER: $F2B_SSMTP_USER
+      SSMTP_PASSWORD: $F2B_SSMTP_PASSWORD
+      SSMTP_TLS: YES
     network_mode: host
     cap_add:
       - NET_ADMIN
@@ -52,14 +51,14 @@ services:
       context: gitlab/.
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url "https://gitlab.${DOMAIN_NAME}"
+        external_url "http://gitlab.${DOMAIN_NAME}"
         nginx["listen_port"] = 80
         nginx["listen_https"] = false
         letsencrypt["enable"] = false
         puma["worker_processes"] = 4
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
-        registry_external_url "https://registry.${DOMAIN_NAME}"
+        registry_external_url "http://registry.${DOMAIN_NAME}"
         registry_nginx["listen_port"] = 5000
         registry_nginx["listen_https"] = false
         grafana["disable_login_form"] = true
