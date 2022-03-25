@@ -22,13 +22,11 @@ $ bin/{gitlab,fail2ban}_backup
 ## restore
 
 ```bash
-$ bin/{gitlab}_restore
+$ bin/gitlab_restore
 ```
 
 ## admin gitlab
 
 ```bash
-# get prompt
-$ dc exec gitlab /bin/bash
-$
+$ bin/gitlab_shell
 ```
