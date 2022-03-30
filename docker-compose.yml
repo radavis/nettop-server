@@ -53,6 +53,22 @@ services:
       start_period: 5m
     shm_size: "256m"
 
+  loki:
+    container_name: loki
+    image: grafana/loki:2.4.2
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    container_name: promtail
+    build:
+      context: promtail/.
+    volumes:
+      - /var/log:/var/log:ro
+      - gitlab-logs:/var/log/gitlab:ro
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+
 volumes:
   fail2ban-data:
   gitlab-config:
