@@ -60,14 +60,16 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     depends_on:
       - gitlab
+    healthcheck:
+      test: curl --fail http://loki:3100/ready || exit 1
 
   promtail:
     container_name: promtail
     build:
       context: promtail/.
     volumes:
-      - /var/log:/var/log
-      - gitlab-logs:/var/log/gitlab
+      - /var/log:/var/log:ro
+      - gitlab-logs:/gitlab-logs
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yml
     depends_on:

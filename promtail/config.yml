@@ -22,4 +22,4 @@ scrape_configs:
       - gitlab
     labels:
       job: gitlab
-      __path__: /var/log/gitlab/**/*.log
+      __path__: /gitlab-logs/**/*.log
