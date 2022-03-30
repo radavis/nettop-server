@@ -9,7 +9,7 @@ $ cp .env.example .env
 $ alias dc=docker-compose
 $ dc build
 $ dc up -d && dc logs -f
-$ open https://www.${DOMAIN_NAME}
+$ open https://gitlab.${DOMAIN_NAME}
 ```
 
 ## backup
@@ -30,3 +30,11 @@ $ bin/gitlab_restore
 ```bash
 $ bin/gitlab_shell
 ```
+
+## view logs
+
+Visit https://gitlab.${DOMAIN_NAME}/-/grafana. Login as root.
+
+Configuration -> Data sources, Add Loki (http://loki:3100).
+
+Explore -> Select 'Loki' from drop-down -> Click 'Log browser'.
