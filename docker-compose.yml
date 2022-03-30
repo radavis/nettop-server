@@ -35,6 +35,7 @@ services:
         puma["worker_processes"] = 4
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
+        gitlab_rails["monitoring_whitelist"] = ["127.0.0.0/8", "192.168.86.0/24"]
         registry_external_url "https://registry.${DOMAIN_NAME}"
         grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
