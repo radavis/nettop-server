@@ -5,23 +5,36 @@ Requires: docker and docker-compose.
 Set a DNS `A/AAAA Records` for your `DOMAIN_NAME`, then
 
 ```bash
-$ docker network create nettop
 $ cp .env.example .env
 $ alias dc=docker-compose
 $ dc build
 $ dc up -d && dc logs -f
-$ open https://www.${DOMAIN_NAME}
+$ open https://gitlab.${DOMAIN_NAME}
 ```
 
 ## backup
 
 ```bash
 $ mkdir .backup
-$ bin/{caddy,gitlab,fail2ban}_backup
+$ bin/{gitlab,fail2ban}_backup
 ```
 
 ## restore
 
 ```bash
-$ bin/{caddy,gitlab}_restore
+$ bin/gitlab_restore
 ```
+
+## admin gitlab
+
+```bash
+$ bin/gitlab_shell
+```
+
+## view logs
+
+Visit https://gitlab.${DOMAIN_NAME}/-/grafana. Login as root.
+
+Configuration -> Data sources, Add Loki (http://loki:3100).
+
+Explore -> Select 'Loki' from drop-down -> Click 'Log browser'.

@@ -1,28 +1,6 @@
 version: "3.7"
 
 services:
-  caddy:
-    container_name: caddy
-    build:
-      context: caddy/.
-    environment:
-      ACME_EMAIL: ${ACME_EMAIL}
-      DOMAIN_NAME: ${DOMAIN_NAME}
-      NAMECHEAP_API_KEY: ${NAMECHEAP_API_KEY}
-      NAMECHEAP_USERNAME: ${NAMECHEAP_USERNAME}
-      NAMECHEAP_ENDPOINT: ${NAMECHEAP_ENDPOINT}
-    ports:
-      - "8070:80"
-      - "8071:443"
-    volumes:
-      - caddy-data:/data
-      - caddy-config:/config
-    restart: unless-stopped
-    healthcheck:
-      test: curl --fail https://www.${DOMAIN_NAME} || exit 1
-    networks:
-      - nettop
-
   fail2ban:
     container_name: fail2ban
     build:
@@ -31,12 +9,11 @@ services:
       F2B_LOG_TARGET: STDOUT
       F2B_LOG_LEVEL: INFO
       F2B_DB_PURGE_AGE: 1d
-      # SSMTP_HOST: smtp.example.com
-      # SSMTP_PORT: 587
-      # SSMTP_HOSTNAME: example.com
-      # SSMTP_USER: smtp@example.com
-      # SSMTP_PASSWORD:
-      # SSMTP_TLS: YES
+      SSMTP_HOST: mail.privateemail.com
+      SSMTP_PORT: 465
+      SSMTP_USER: ${F2B_SSMTP_USER}
+      SSMTP_PASSWORD: ${F2B_SSMTP_PASSWORD}
+      SSMTP_TLS: "true"
     network_mode: host
     cap_add:
       - NET_ADMIN
@@ -44,7 +21,7 @@ services:
     volumes:
       - fail2ban-data:/data
       - /var/log:/var/log:ro
-    restart: always
+    restart: unless-stopped
 
   gitlab:
     container_name: gitlab
@@ -52,43 +29,54 @@ services:
       context: gitlab/.
     environment:
       GITLAB_OMNIBUS_CONFIG: |
+        letsencrypt["enable"] = true
+        letsencrypt["contact_emails"] = ["${ACME_EMAIL}"]
         external_url "https://gitlab.${DOMAIN_NAME}"
-        nginx["listen_port"] = 80
-        nginx["listen_https"] = false
-        letsencrypt["enable"] = false
         puma["worker_processes"] = 4
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
+        gitlab_rails["monitoring_whitelist"] = ["127.0.0.0/8", "192.168.86.0/24"]
         registry_external_url "https://registry.${DOMAIN_NAME}"
-        registry_nginx["listen_port"] = 80
-        registry_nginx["listen_https"] = false
-        grafana["disable_login_form"] = true
+        grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
     ports:
       - "4242:22"
+      - "8070:80"
+      - "8071:443"
     volumes:
       - gitlab-config:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
       - gitlab-data:/var/opt/gitlab
     restart: unless-stopped
-    depends_on:
-      - caddy
     healthcheck:
-      test: curl --fail https://gitlab.${DOMAIN_NAME}/-/readiness || exit 1
+      test: curl --fail http://localhost:8070/-/readiness || exit 1
       start_period: 5m
     shm_size: "256m"
-    networks:
-      - nettop
+
+  loki:
+    container_name: loki
+    image: grafana/loki:2.4.2
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    depends_on:
+      - gitlab
+    healthcheck:
+      test: curl --fail http://loki:3100/ready || exit 1
+
+  promtail:
+    container_name: promtail
+    build:
+      context: promtail/.
+    volumes:
+      - /var/log:/var/log:ro
+      - gitlab-logs:/gitlab-logs
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - gitlab
 
 volumes:
-  caddy-data:
-    external: true
-  caddy-config:
   fail2ban-data:
   gitlab-config:
   gitlab-logs:
   gitlab-data:
-
-networks:
-  nettop:
-    external: true

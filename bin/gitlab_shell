@@ -1,0 +1,12 @@
+#!/bin/sh
+
+source=${BACKUP_PATH:-"$(pwd)/.backup"}
+
+container=gitlab
+image=nettop-server_gitlab:latest
+
+docker run --rm -it \
+  --entrypoint "/bin/bash" \
+  --volumes-from ${container} \
+  -v ${source}:/backup \
+  ${image}
