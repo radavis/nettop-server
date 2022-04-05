@@ -23,23 +23,27 @@
 	}
 }
 
-https://www.{$DOMAIN_NAME}:443 {
+*.{$DOMAIN_NAME}, {$DOMAIN_NAME} {
+	import tls_config
+}
+
+www.{$DOMAIN_NAME} {
 	import tls_config
 	root * /www/
 	file_server
 }
 
-https://hello.{$DOMAIN_NAME}:443 {
+hello.{$DOMAIN_NAME} {
 	import tls_config
 	respond "Hello"
 }
 
-https://gitlab.{$DOMAIN_NAME}:443 {
+gitlab.{$DOMAIN_NAME} {
 	import tls_config
 	reverse_proxy http://gitlab:80
 }
 
-https://registry.{$DOMAIN_NAME}:443 {
+registry.{$DOMAIN_NAME}:443 {
 	import tls_config
 	reverse_proxy http://gitlab:5000 {
 		header_up Host {http.reverse_proxy.upstream.hostport}

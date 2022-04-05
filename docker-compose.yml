@@ -54,6 +54,7 @@ services:
         external_url "http://gitlab.${DOMAIN_NAME}"
         nginx["listen_port"] = 80
         nginx["listen_https"] = false
+        nginx["proxy_set_headers"] = {"X-Forwarded-Proto" => "https","X-Forwarded-Ssl" => "on"}
         letsencrypt["enable"] = false
         puma["worker_processes"] = 4
         sidekiq["max_concurrency"] = 20
@@ -61,6 +62,11 @@ services:
         registry_external_url "http://registry.${DOMAIN_NAME}"
         registry_nginx["listen_port"] = 5000
         registry_nginx["listen_https"] = false
+        registry_nginx["proxy_set_headers"] = {"X-Forwarded-Proto" => "https","X-Forwarded-Ssl" => "on"}
+        pages_nginx["listen_port"] = 15002
+        pages_nginx["listen_https"] = false
+        pages_nginx["proxy_set_headers"] = {"X-Forwarded-Proto" => "https","X-Forwarded-Ssl" => "on"}
+        gitlab_pages["inplace_chroot"] = true
         grafana["disable_login_form"] = true
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
     ports:
