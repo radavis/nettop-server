@@ -2,7 +2,7 @@
 
 Requires: docker and docker-compose.
 
-Set a DNS `A/AAAA Records` for your `DOMAIN_NAME`, then
+Set wildcard DNS `A/AAAA Records` for your `DOMAIN_NAME`, then
 
 ```bash
 $ docker network create nettop
@@ -24,4 +24,12 @@ $ bin/{caddy,gitlab,fail2ban}_backup
 
 ```bash
 $ bin/{caddy,gitlab}_restore
+```
+
+## console
+
+```bash
+$ bin/run caddy sh
+$ bin/run fail2ban sh
+$ bin/run gitlab bash
 ```

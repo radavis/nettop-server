@@ -1,6 +1,6 @@
 {
 	debug
-	email {env.ACME_EMAIL}
+	email {$ACME_EMAIL}
 }
 
 (security_headers) {
@@ -15,37 +15,35 @@
 
 (tls_config) {
 	tls {
-		dns namecheap {
-			api_key {env.NAMECHEAP_API_KEY}
-			user {env.NAMECHEAP_USERNAME}
-			endpoint {env.NAMECHEAP_ENDPOINT}
-		}
+		issuer zerossl {$ZEROSSL_API_KEY}
 	}
 }
 
-*.{$DOMAIN_NAME}, {$DOMAIN_NAME} {
+*.{$DOMAIN_NAME} {
 	import tls_config
 }
 
+{$DOMAIN_NAME} {
+	redir www.{$DOMAIN_NAME}
+}
+
 www.{$DOMAIN_NAME} {
-	import tls_config
 	root * /www/
 	file_server
 }
 
 hello.{$DOMAIN_NAME} {
-	import tls_config
 	respond "Hello"
 }
 
 gitlab.{$DOMAIN_NAME} {
-	import tls_config
 	reverse_proxy http://gitlab:80
 }
 
 registry.{$DOMAIN_NAME}:443 {
-	import tls_config
-	reverse_proxy http://gitlab:5000 {
-		header_up Host {http.reverse_proxy.upstream.hostport}
-	}
+	reverse_proxy http://gitlab:5000
 }
+
+# *.{$DOMAIN_NAME} {
+# 	reverse_proxy http://gitlab:81
+# }

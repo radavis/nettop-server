@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# Wrapper script for "docker run". Script arguments passed as arguments to "docker run".
+#
+set -Eeuxo pipefail
+
+service="$1"; shift
+args="$*"
+image="nettop-server_${service}"
+
+# docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+docker run \
+  --rm \
+  --interactive \
+  --tty \
+  ${image} \
+  ${args}
