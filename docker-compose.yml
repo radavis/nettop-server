@@ -39,6 +39,7 @@ services:
         registry_external_url "https://registry.${DOMAIN_NAME}"
         grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
+        pages_external_url "http://pages.${DOMAIN_NAME}"
     ports:
       - "4242:22"
       - "8070:80"
