@@ -10,3 +10,5 @@ docker run --rm -it \
   --volumes-from ${container} \
   -v ${source}:/backup \
   ${image}
+
+# docker exec -it gitlab /bin/bash

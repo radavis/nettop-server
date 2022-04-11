@@ -1,0 +1,5 @@
+#!/bin/sh
+
+image=nettop-server_promtail:latest
+
+docker run --rm ${image} -print-config-stderr

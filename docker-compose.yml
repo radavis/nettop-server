@@ -41,6 +41,7 @@ services:
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
         pages_external_url "https://pages.${DOMAIN_NAME}"
         mattermost_external_url "https://chat.${DOMAIN_NAME}"
+        sidekiq["log_format"] = "json"
     ports:
       - "4242:22"
       - "8070:80"
@@ -71,6 +72,7 @@ services:
       context: promtail/.
     volumes:
       - /var/log:/var/log:ro
+      - /var/log/journal:/var/log/journal:ro
       - gitlab-logs:/gitlab-logs
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yml
