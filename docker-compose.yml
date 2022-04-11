@@ -40,6 +40,9 @@ services:
         grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
         pages_external_url "https://pages.${DOMAIN_NAME}"
+        pages_nginx["redirect_http_to_https"] = true
+        pages_nginx["ssl_certificate"] = "/etc/gitlab/ssl/gitlab.${DOMAIN_NAME}.crt"
+        pages_nginx["ssl_certificate_key"] = "/etc/gitlab/ssl/gitlab.${DOMAIN_NAME}.key"
         mattermost_external_url "https://chat.${DOMAIN_NAME}"
         sidekiq["log_format"] = "json"
     ports:
