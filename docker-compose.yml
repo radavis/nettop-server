@@ -40,9 +40,9 @@ services:
         grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
     ports:
-      - "4242:22"
-      - "8070:80"
-      - "8071:443"
+      - "2222:22"
+      - "8080:80"
+      - "8443:443"
     volumes:
       - gitlab-config:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
