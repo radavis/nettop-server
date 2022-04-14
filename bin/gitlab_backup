@@ -27,3 +27,5 @@ docker run --rm \
   -v ${destination}:/backup \
   ${image} \
   "-cf" "/backup/gitlab-data-${timestamp}.tar" "-C" "/" "var/opt/gitlab"
+
+# docker exec -it gitlab gitlab-rake gitlab:backup:create
