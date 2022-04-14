@@ -49,7 +49,7 @@ services:
       - gitlab-data:/var/opt/gitlab
     restart: unless-stopped
     healthcheck:
-      test: curl --fail http://localhost:8070/-/readiness || exit 1
+      test: curl --fail http://gitlab:8080/-/readiness || exit 1
       start_period: 5m
     shm_size: "256m"
 

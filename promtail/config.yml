@@ -9,17 +9,70 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-- job_name: system
-  static_configs:
-  - targets:
-      - localhost
-    labels:
-      job: varlogs
-      __path__: /var/log/*log
-- job_name: gitlab
-  static_configs:
-  - targets:
-      - gitlab
-    labels:
-      job: gitlab
-      __path__: /gitlab-logs/**/*.log
+  - job_name: systemd-journal
+    journal:
+      max_age: 12h
+      path: /var/log/journal
+      labels:
+        job: systemd-journal
+
+  - job_name: gitlab
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: gitlab
+          __path__: /gitlab-logs/gitlab-rails/*_json.log
+
+  - job_name: gitlab-sidekiq
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: gitlab-sidekiq
+          __path__: /gitlab-logs/sidekiq/current
+      - targets:
+          - gitlab
+        labels:
+          job: gitlab-sidekiq-client
+          __path__: /gitlab-logs/gitlab-rails/sidekiq_client.log
+
+  - job_name: gitaly
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: gitaly
+          __path__: /gitlab-logs/gitaly/current
+
+  - job_name: registry
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: registry
+          __path__: /gitlab-logs/registry/current
+
+  - job_name: nginx
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: nginx
+          __path__: /gitlab-logs/nginx/*.log
+
+  - job_name: pages
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: pages
+          __path__: /gitlab-logs/gitlab-pages/current
+
+  - job_name: mattermost
+    static_configs:
+      - targets:
+          - gitlab
+        labels:
+          job: mattermost
+          __path__: /gitlab-logs/mattermost/current
