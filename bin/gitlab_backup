@@ -10,22 +10,20 @@ timestamp=$(env TZ=UTC date "+%Y%m%d%H%M%S")
 docker run --rm \
   --entrypoint "/bin/tar" \
   --volumes-from ${container} \
-  -v ${destination}:/backup \
+  -v ${destination}:/mnt/backup \
   ${image} \
-  "-cf" "/backup/gitlab-config-${timestamp}.tar" "-C" "/" "etc/gitlab"
+  "-cf" "/mnt/backup/gitlab-config-${timestamp}.tar" "-C" "/" "etc/gitlab"
 
 docker run --rm \
   --entrypoint "/bin/tar" \
   --volumes-from ${container} \
-  -v ${destination}:/backup \
+  -v ${destination}:/mnt/backup \
   ${image} \
-  "-cf" "/backup/gitlab-logs-${timestamp}.tar" "-C" "/" "var/log/gitlab"
+  "-cf" "/mnt/backup/gitlab-logs-${timestamp}.tar" "-C" "/" "var/log/gitlab"
 
 docker run --rm \
   --entrypoint "/bin/tar" \
   --volumes-from ${container} \
-  -v ${destination}:/backup \
+  -v ${destination}:/mnt/backup \
   ${image} \
-  "-cf" "/backup/gitlab-data-${timestamp}.tar" "-C" "/" "var/opt/gitlab"
-
-# docker exec -it gitlab gitlab-rake gitlab:backup:create
+  "-cf" "/mnt/backup/gitlab-data-${timestamp}.tar" "-C" "/" "var/opt/gitlab"

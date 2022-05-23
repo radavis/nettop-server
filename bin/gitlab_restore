@@ -12,9 +12,9 @@ echo "Restoring ${container} from ${archive}"
 docker run --rm \
   --entrypoint "/bin/tar" \
   --volumes-from ${container} \
-  -v ${source}:/backup \
+  -v ${source}:/mnt/backup \
   ${image} \
-  "-xf" "/backup/${filename}" "-C" "/"
+  "-xf" "/mnt/backup/${filename}" "-C" "/"
 
 archive=$(ls -1t ${source}/gitlab-data-*.tar | head -1)
 filename=$(basename ${archive})
@@ -23,6 +23,6 @@ echo "Restoring ${container} from ${archive}"
 docker run --rm \
   --entrypoint "/bin/tar" \
   --volumes-from ${container} \
-  -v ${source}:/backup \
+  -v ${source}:/mnt/backup \
   ${image} \
-  "-xf" "/backup/${filename}" "-C" "/"
+  "-xf" "/mnt/backup/${filename}" "-C" "/"

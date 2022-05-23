@@ -36,6 +36,7 @@ services:
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
         gitlab_rails["monitoring_whitelist"] = ["127.0.0.0/8", "192.168.86.0/24"]
+        gitlab_rails["backup_path"] = "/mnt/backup"
         registry_external_url "https://registry.${DOMAIN_NAME}"
         grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
@@ -49,7 +50,7 @@ services:
       - gitlab-data:/var/opt/gitlab
     restart: unless-stopped
     healthcheck:
-      test: curl --fail http://gitlab:8080/-/readiness || exit 1
+      test: curl --fail http://localhost:8080/-/readiness || exit 1
       start_period: 5m
     shm_size: "256m"
 
@@ -59,7 +60,7 @@ services:
     restart: unless-stopped
     command: -config.file=/etc/loki/local-config.yaml
     healthcheck:
-      test: curl --fail http://loki:3100/ready || exit 1
+      test: curl --fail http://localhost:3100/ready || exit 1
 
   promtail:
     container_name: promtail
