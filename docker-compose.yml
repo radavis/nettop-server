@@ -6,9 +6,6 @@ services:
     build:
       context: fail2ban/.
     environment:
-      F2B_LOG_TARGET: STDOUT
-      F2B_LOG_LEVEL: INFO
-      F2B_DB_PURGE_AGE: 1d
       SSMTP_HOST: mail.privateemail.com
       SSMTP_PORT: 465
       SSMTP_USER: ${F2B_SSMTP_USER}
@@ -72,8 +69,21 @@ services:
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yml
 
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:2.13.1
+    command: --admin-password='${PORTAINER_ADMIN_PASSWORD}'
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    restart: unless-stopped
+
 volumes:
   fail2ban-data:
   gitlab-config:
   gitlab-logs:
   gitlab-data:
+  portainer-data:

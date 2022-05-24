@@ -19,3 +19,13 @@ $ nano /etc/gitlab/gitlab.rb
 $ dc exec gitlab bash
 $ gitlab-backup create SKIP=builds,registry
 ```
+
+### portainer password
+
+bcrypt password
+
+```bash
+$ docker run --rm httpd:2.4-alpine htpasswd -nbB admin "your-password" | cut -d ":" -f 2
+```
+
+Set as `PORTAINER_ADMIN_PASSWORD` in `.env`.
