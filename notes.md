@@ -29,3 +29,13 @@ $ docker run --rm httpd:2.4-alpine htpasswd -nbB admin "your-password" | cut -d 
 ```
 
 Set as `PORTAINER_ADMIN_PASSWORD` in `.env`.
+
+### loki
+
+- https://grafana.com/blog/2021/08/09/new-in-loki-2.3-logql-pattern-parser-makes-it-easier-to-extract-data-from-unstructured-logs/
+
+- https://docs.nginx.com/nginx/admin-guide/monitoring/logging/
+
+- https://grafana.com/docs/loki/latest/logql/log_queries/
+
+- https://grafana.com/docs/loki/latest/logql/metric_queries/
