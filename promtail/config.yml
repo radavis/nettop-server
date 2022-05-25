@@ -37,7 +37,7 @@ scrape_configs:
           job: gitlab-sidekiq-client
           __path__: /gitlab-logs/gitlab-rails/sidekiq_client.log
 
-- job_name: gitlab-shell
+  - job_name: gitlab-shell
     static_configs:
       - targets:
           - gitlab
