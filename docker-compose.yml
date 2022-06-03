@@ -32,11 +32,18 @@ services:
         puma["worker_processes"] = 4
         sidekiq["max_concurrency"] = 20
         gitlab_rails["initial_root_password"] = "${GITLAB_ROOT_PASSWORD}"
-        gitlab_rails["monitoring_whitelist"] = ["127.0.0.0/8", "192.168.86.0/24"]
+        gitlab_rails["monitoring_whitelist"] = ["127.0.0.0/8", "192.168.86.0/24", "67.162.233.0/24"]
         gitlab_rails["backup_path"] = "/mnt/backup"
         registry_external_url "https://registry.${DOMAIN_NAME}"
         grafana["disable_login_form"] = false
         grafana["admin_password"] = "${GITLAB_ROOT_PASSWORD}"
+        gitlab_rails["rack_attack_git_basic_auth"] = {
+          "enabled" => true,
+          "ip_whitelist" => ["127.0.0.1/8", "192.168.86.0/24", "67.162.233.0/24"],
+          "maxretry" => 10,
+          "findtime" => 60,
+          "bantime" => 3600
+        }
     ports:
       - "2222:22"
       - "8080:80"

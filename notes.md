@@ -39,3 +39,12 @@ Set as `PORTAINER_ADMIN_PASSWORD` in `.env`.
 - https://grafana.com/docs/loki/latest/logql/log_queries/
 
 - https://grafana.com/docs/loki/latest/logql/metric_queries/
+
+### view default gitlab.rb settings
+
+https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
+
+
+### rails console
+
+dc exec -it gitlab gitlab-rails c
